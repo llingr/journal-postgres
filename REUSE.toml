@@ -1,0 +1,23 @@
+version = 1
+
+# Bulk annotation for files that cannot or should not carry in-file SPDX headers.
+# The license text is LICENSE at the root.
+[[annotations]]
+path = [
+    ".gitattributes",
+    ".gitignore",
+    "AUTHORS",
+    "COPYRIGHT",
+    "NOTICE",
+    "REUSE.toml",
+    "**/Makefile",
+    "**/*.md",
+    "**/*.mod",
+    "**/*.sum",
+    "**/*.sql",
+    "**/*.yml",
+    "**/*.yaml",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright (c) 2026 The journal Authors"
+SPDX-License-Identifier = "Apache-2.0"

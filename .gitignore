@@ -1,0 +1,25 @@
+.vscode/
+.idea/
+.claude/
+*.swp
+.DS_Store
+
+*.out
+*.test
+*.prof
+.coverage/
+/bin/
+/dist/
+
+# a local workspace over sibling modules, never shared
+go.work
+go.work.sum
+
+# working documents: design notes and rulings stay out of the published tree, while
+# docs/examples/ is published
+/docs/*.md
+
+.env
+.env.*
+*.key
+*.pem

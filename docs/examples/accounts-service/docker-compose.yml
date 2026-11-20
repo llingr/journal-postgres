@@ -1,0 +1,22 @@
+name: accounts-service
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: accounts-service-postgres
+    ports:
+      - "5462:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./docker/postgres/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d accounts"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+volumes:
+  pgdata:

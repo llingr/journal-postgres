@@ -1,0 +1,6 @@
+version: "2"
+
+# the standard linters, and every file laid out as gofmt lays it out
+formatters:
+  enable:
+    - gofmt

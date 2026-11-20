@@ -1,0 +1,12 @@
+* text=auto eol=lf
+
+*.go   text eol=lf
+*.sql  text eol=lf
+*.md   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.sh   text eol=lf
+
+# Never merge-resolve a lockfile by hand
+go.sum -diff merge=union

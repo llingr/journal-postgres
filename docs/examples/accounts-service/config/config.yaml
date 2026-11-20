@@ -1,0 +1,25 @@
+app:
+  server:
+    port: 8090 # APP_SERVER_PORT overrides it
+    readHeaderTimeout: 4s
+
+  postgres:
+    # reaches the compose Postgres from the host
+    connection:
+      host: localhost
+      port: 5462
+      databaseName: accounts
+      sslMode: disable
+      connectTimeout: 5s
+      maxIdleTime: 2m
+
+    # local-only credentials, aligned to docker/postgres/init_db.sql
+    roles:
+      owner:
+        username: accounts_owner
+        password: accounts_owner_pass
+        maxConnections: 2
+      app:
+        username: accounts_app
+        password: accounts_app_pass
+        maxConnections: 10
