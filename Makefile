@@ -12,7 +12,7 @@ TEST_DATABASE_PORT := 55440
 TEST_DATABASE_URL := postgres://postgres:pw@127.0.0.1:$(TEST_DATABASE_PORT)/postgres?sslmode=disable
 
 # Built with a Go at least as new as go.mod's go directive, which it refuses otherwise
-GOLANGCI_LINT_VERSION := v2.14.0
+GOLANGCI_LINT_VERSION := v2.15.0
 
 COVERAGE_PROFILE := .coverage/coverage.out
 
@@ -26,15 +26,15 @@ build:
 	@for module in $(MODULES); do \
 		(cd $$module && go build ./... && go vet ./...) || exit 1; done
 
-# Every package, one at a time as the suites share the database; CI=true turns a database
-# test that cannot reach Postgres into a failure rather than a skip. go test's own coverage
-# figure on each line is dropped, as it is that package's share of the whole backend; the
-# report after the run gives each package's coverage by every test.
+# Every package under the race detector, one at a time as the suites share the database;
+# CI=true turns a database test that cannot reach Postgres into a failure rather than a skip.
+# go test's own coverage figure on each line is dropped, as it is that package's share of the
+# whole backend; the report after the run gives each package's coverage by every test.
 test: test-database
 	@mkdir -p $(dir $(COVERAGE_PROFILE))
-	@echo "go test -p 1 -count=1 -coverpkg=<the backend's packages> ./..."
-	@set -o pipefail; CI=true TEST_DATABASE_URL='$(TEST_DATABASE_URL)' go test -p 1 -count=1 \
-		-coverpkg=$(COVERED_PACKAGES) -coverprofile=$(COVERAGE_PROFILE) ./... | \
+	@echo "go test -race -p 1 -count=1 -coverpkg=<the backend's packages> ./..."
+	@set -o pipefail; CI=true TEST_DATABASE_URL='$(TEST_DATABASE_URL)' go test -race -p 1 \
+		-count=1 -coverpkg=$(COVERED_PACKAGES) -coverprofile=$(COVERAGE_PROFILE) ./... | \
 		grep -vE 'no test files|^[[:space:]]+[^[:space:]]+[[:space:]]+coverage: ' | \
 		sed -E 's/[[:space:]]+coverage: .*//'
 	@$(MAKE) --no-print-directory coverage
