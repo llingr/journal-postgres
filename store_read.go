@@ -31,7 +31,8 @@ func (st *store) QueryStream(ctx context.Context, streamID uuid.UUID, fromVersio
 	return st.readContiguous(ctx, streamID, fromVersion, math.MaxInt32, limit)
 }
 
-// QueryState returns the stream's state row and its last version, read in one statement
+// QueryState returns the stream's state row and its last version, read in one statement, its
+// last append time in UTC as scanEvent returns an event's
 func (st *store) QueryState(ctx context.Context,
 	streamID uuid.UUID) (persistence.PersistedState, int32, error) {
 	var (
@@ -68,7 +69,7 @@ func (st *store) QueryState(ctx context.Context,
 		Version:           version,
 		StateVersion:      stateVersion,
 		LastEventType:     eventType.String,
-		LastAppendTs:      appendTs.Time,
+		LastAppendTs:      appendTs.Time.UTC(),
 		StateData:         stateData,
 		DataFormat:        codec.DataFormat(dataFormat.String),
 		DataCompression:   compress.DataCompression(dataCompression.String),
@@ -136,7 +137,9 @@ func (st *store) readContiguous(ctx context.Context, streamID uuid.UUID, fromVer
 	return read, nil
 }
 
-// scanEvent maps one row. Row mapping is a store internal and never escapes.
+// scanEvent maps one row, its append time in UTC as journal writes it: a pool built with
+// pgx's defaults returns it in the process's time zone. Row mapping is a store internal and
+// never escapes.
 func scanEvent(rows pgx.Rows) (persistence.PersistedEvent, error) {
 	var (
 		event       persistence.PersistedEvent
@@ -150,5 +153,6 @@ func scanEvent(rows pgx.Rows) (persistence.PersistedEvent, error) {
 	}
 
 	event.StreamID = streamValue.Bytes
+	event.EventAppendTs = event.EventAppendTs.UTC()
 	return event, nil
 }
