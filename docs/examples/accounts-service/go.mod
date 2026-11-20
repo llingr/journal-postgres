@@ -9,7 +9,7 @@ require (
 	github.com/llingr/anvil v0.2.0
 	github.com/llingr/anvil-koanf v0.2.0
 	github.com/llingr/anvil-zap v0.2.1
-	github.com/llingr/llingr-pgx v0.16.0
+	github.com/llingr/llingr-pgx v0.17.1
 	go.uber.org/zap v1.28.0
 )
 
@@ -32,7 +32,7 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/puddle/v2 v2.2.4 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.20.4 // indirect
+	github.com/klauspost/compress v1.20.5 // indirect
 	github.com/klauspost/cpuid/v2 v2.4.2 // indirect
 	github.com/knadh/koanf/maps v0.1.3 // indirect
 	github.com/knadh/koanf/parsers/yaml v1.1.1 // indirect
@@ -40,7 +40,7 @@ require (
 	github.com/knadh/koanf/providers/fs v1.0.1 // indirect
 	github.com/knadh/koanf/v2 v2.4.1 // indirect
 	github.com/leodido/go-urn v1.5.0 // indirect
-	github.com/llingr/journal v0.2.5
+	github.com/llingr/journal v0.2.7
 	github.com/llingr/journal-postgres v0.0.0
 	github.com/mattn/go-isatty v0.0.24 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
